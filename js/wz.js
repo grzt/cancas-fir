@@ -121,7 +121,11 @@ if (localStorage.data) {
        luozi(x,y,(qizi[i]=='black')?true:false);
 	}
 }
-
+//双击清除
+document.ondblclick=function(){
+	localStorage.clear();
+  location.reload();
+}
 
 
 var lingrad=ctx.createLinearGradient(20,300,580,300);
