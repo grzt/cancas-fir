@@ -97,7 +97,8 @@ ctx.fill();
 luozi(3,3,true);
 luozi(2,2,false);
 
-var qizi={'1_1':true,'2_2':false}
+//黑白交错
+var qizi={}
 var kaiguan=true;
 canvas.onclick=function(e){
 	console.log(e.offsetX);
@@ -107,8 +108,10 @@ canvas.onclick=function(e){
 
 if (qizi[x+'_'+y]) {return}
 	luozi(x,y,kaiguan);
+    qizi[x+'_'+y]=true;
 	kaiguan=!kaiguan;
 }
+
 
 var lingrad=ctx.createLinearGradient(20,300,580,300);
 lingrad.addColorStop(0,'red');
