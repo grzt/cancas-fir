@@ -97,12 +97,17 @@ ctx.fill();
 luozi(3,3,true);
 luozi(2,2,false);
 
+var qizi={'1_1':true,'2_2':false}
+var kaiguan=true;
 canvas.onclick=function(e){
 	console.log(e.offsetX);
 	console.log(Math.round(e.offsetX-20.5)/40);
 	var x=Math.round((e.offsetX-20.5)/40);
 	var y=Math.round((e.offsetY-20.5)/40);
-	luozi(x,y,true)
+
+if (qizi[x+'_'+y]) {return}
+	luozi(x,y,kaiguan);
+	kaiguan=!kaiguan;
 }
 
 var lingrad=ctx.createLinearGradient(20,300,580,300);
