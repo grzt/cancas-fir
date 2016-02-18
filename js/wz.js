@@ -115,16 +115,18 @@ if (qizi[x+','+y]) {return}
 //保存数据
 if (localStorage.data) {
 	qizi=JSON.parse(localStorage.data);
-	for(var i in qizi){
+	for(var i in qizi){//对坐标数据遍历
        var x=i.split(',')[0];
        var y=i.split(',')[1];
-       luozi(x,y,(qizi[i]=='black')?true:false);
+       luozi(x,y,(qizi[i]=='black')?true:false);kaiguan=(qizi[i]=='white')?true:false;//刷新后黑白交错
 	}
+
 }
 //双击清除
 document.ondblclick=function(){
 	localStorage.clear();
   location.reload();
+  //
 }
 
 
