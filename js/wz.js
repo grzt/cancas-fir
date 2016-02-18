@@ -97,6 +97,13 @@ ctx.fill();
 luozi(3,3,true);
 luozi(2,2,false);
 
+canvas.onclick=function(e){
+	console.log(e.offsetX);
+	console.log(Math.round(e.offsetX-20.5)/40);
+	var x=Math.round((e.offsetX-20.5)/40);
+	var y=Math.round((e.offsetY-20.5)/40);
+	luozi(x,y,true)
+}
 
 var lingrad=ctx.createLinearGradient(20,300,580,300);
 lingrad.addColorStop(0,'red');
