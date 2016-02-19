@@ -2,8 +2,8 @@ window.onload=function(){
 	var canvas=document.querySelector('#canvas');
 
 ctx=canvas.getContext('2d');
-
-ctx.beginPath();
+var huaqipan=function(){
+	ctx.beginPath();
 ctx.moveTo(20,20.5);
 ctx.lineTo(580,20.5);
 
@@ -75,6 +75,9 @@ for (var i = 0; i < z.length; i++) {
 		ctx.fill();
 	}
 }
+}
+huaqipan();
+
 
 
 //落子
@@ -94,6 +97,7 @@ ctx.beginPath();
 ctx.arc(40*x+20.5,40*y+20.5,14,0,Math.PI*2);
 ctx.fill();
 }
+//图片代替棋子
 var qiziimg=document.querySelector('#qiziimg');
 var luozi=function(x,y,color){
     var zx=40*x+3.5;
@@ -107,21 +111,92 @@ var luozi=function(x,y,color){
 luozi(3,3,true);
 luozi(2,2,false);
 
+
+
+
+
+
 //黑白交错
 var qizi={}
-var kaiguan=true;
+var kaiguan=localStorage.x?true:false;
 canvas.onclick=function(e){
-	console.log(e.offsetX);
-	console.log(Math.round(e.offsetX-20.5)/40);
+	// console.log(e.offsetX);
+	// console.log(Math.round(e.offsetX-20.5)/40);
 	var x=Math.round((e.offsetX-20.5)/40);
 	var y=Math.round((e.offsetY-20.5)/40);
 
 if (qizi[x+','+y]) {return}
 	luozi(x,y,kaiguan);
     qizi[x+','+y]=kaiguan?'black':'white';//不覆盖
+
+ if(kaiguan){ 
+       if( panduan(x,y,'black') ){ 
+         alert('heiqiying'); 
+         if(confirm('shifouzailaiyiju')){ 
+           localStorage.clear(); 
+           qizi = {}; 
+           huaqipan(); 
+           kaiguan = true; 
+           return; 
+         }else{ 
+           canvas.onclick  = null; 
+         } 
+       } 
+     }else{ 
+       if( panduan(x,y,'white') ){ 
+         alert('baiqiying'); 
+         if(confirm('shifouzailaiyiju')){ 
+           localStorage.clear(); 
+           qizi = {}; 
+           huaqipan(); 
+           kaiguan = true; 
+           return; 
+         }else{ 
+           canvas.onclick = null; 
+         } 
+       } 
+     } 
+
 	kaiguan=!kaiguan;//交换开闭状态
 	localStorage.data=JSON.stringify(qizi);
+
+if(!kaiguan){ 
+       localStorage.x = 1; 
+     }else{ 
+       localStorage.removeItem('x'); 
+     } 
+     
 }
+
+var xy2id = function(x,y) { 
+     return x + ',' + y; 
+   } 
+   var panduan = function(x,y,color) { 
+     var shuju = filter(color); 
+     var tx,ty,hang = 1;shu = 1; zuoxie= 1;youxie = 1; 
+     tx=x;ty=y;while( shuju[ xy2id( tx-1,ty ) ]){tx--;hang++}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx+1,ty ) ]){tx++;hang++}; 
+     if(hang >= 5){return true}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx,ty-1 ) ]){ty--;shu++}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx,ty+1 ) ]){ty++;shu++}; 
+     if(shu >= 5){return true}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx+1,ty-1 ) ]){tx++;ty--;zuoxie++}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx-1,ty+1 ) ]){tx--;ty++;zuoxie++}; 
+     if(zuoxie >= 5){return true}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx-1,ty-1 ) ]){tx--;ty--;youxie++}; 
+     tx=x;ty=y;while( shuju[ xy2id( tx+1,ty+1 ) ]){tx++;ty++;youxie++}; 
+     if(youxie >= 5){return true}; 
+   } 
+   var filter = function(color) { 
+     var r = {}; 
+     for(var i in qizi){ 
+       if(qizi[i]  == color){ 
+         r[i] = qizi[i]; 
+       } 
+     } 
+     return r; 
+   } 
+
 //保存数据
 if (localStorage.data) {
 	qizi=JSON.parse(localStorage.data);
@@ -130,7 +205,7 @@ if (localStorage.data) {
        var y=i.split(',')[1];
        luozi(x,y,(qizi[i]=='black')?true:false);
 
-       kaiguan=(qizi[i]=='white')?true:false;//刷新后黑白交错
+       //kaiguan=(qizi[i]=='white')?true:false;//刷新后黑白交错
 	}
 
 }
