@@ -78,7 +78,7 @@ for (var i = 0; i < z.length; i++) {
 
 
 //落子
-var luozi=function(x,y,color){
+var luozi2=function(x,y,color){
     var zx=40*x+20.5;
     var zy=40*y+20.5;
 
@@ -93,6 +93,16 @@ ctx.fillStyle=color?black:white;
 ctx.beginPath();
 ctx.arc(40*x+20.5,40*y+20.5,14,0,Math.PI*2);
 ctx.fill();
+}
+var qiziimg=document.querySelector('#qiziimg');
+var luozi=function(x,y,color){
+    var zx=40*x+3.5;
+    var zy=40*y+3.5;
+    if (color) {ctx.drawImage(qiziimg,80,249,169,169,zx,zy,36,36)
+    }else{
+    	ctx.drawImage(qiziimg,558,249,169,169,zx,zy,36,36)
+    }
+    
 }
 luozi(3,3,true);
 luozi(2,2,false);
@@ -118,7 +128,9 @@ if (localStorage.data) {
 	for(var i in qizi){//对坐标数据遍历
        var x=i.split(',')[0];
        var y=i.split(',')[1];
-       luozi(x,y,(qizi[i]=='black')?true:false);kaiguan=(qizi[i]=='white')?true:false;//刷新后黑白交错
+       luozi(x,y,(qizi[i]=='black')?true:false);
+
+       kaiguan=(qizi[i]=='white')?true:false;//刷新后黑白交错
 	}
 
 }
@@ -144,10 +156,10 @@ ctx.strokeStyle=lingrad;
 //矩形的渐变色
 /*ctx.fillStyle=lingrad;
 ctx.fillRect(0,0,200,200);*/
-ctx.beginPath();
+/*ctx.beginPath();
 ctx.moveTo(20,300);
 ctx.lineTo(580,300);
-ctx.stroke();
+ctx.stroke();*/
 
 
 
